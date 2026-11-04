@@ -1,29 +1,34 @@
 class BrowserHistory {
-
-    Stack<String> stack1 = new Stack<>();
-    Stack<String> stack2 = new Stack<>();
+    private List<String> track;
+    private int curr;
+    private int max;
 
     public BrowserHistory(String homepage) {
-        stack1.push(homepage);
+        track = new ArrayList<>();
+        track.add(homepage);
+        curr = 0;
+        max = 0;
     }
     
     public void visit(String url) {
-        stack1.push(url);
-        stack2.clear();
+        curr++;
+
+        if(curr < track.size())
+            track.set(curr, url);
+        else
+            track.add(url);
+        
+        max = curr;
     }
     
     public String back(int steps) {
-        while(steps-- > 0 && stack1.size() > 1)
-            stack2.push(stack1.pop());
-
-        return stack1.peek();
+        curr = Math.max(0, curr - steps);
+        return track.get(curr);
     }
     
     public String forward(int steps) {
-        while(steps-- > 0 && !stack2.isEmpty())
-            stack1.push(stack2.pop());
-
-        return stack1.peek();
+        curr = Math.min(max, curr + steps);
+        return track.get(curr);
     }
 }
 

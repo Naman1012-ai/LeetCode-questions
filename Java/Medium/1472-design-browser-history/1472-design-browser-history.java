@@ -1,40 +1,29 @@
 class BrowserHistory {
 
-    private class Node{
-        String data;
-        Node next, prev;
-        public Node(String data){
-            this.data = data;
-            next = null;
-            prev = null;
-        }
-    }
-
-    Node res;
+    Stack<String> stack1 = new Stack<>();
+    Stack<String> stack2 = new Stack<>();
 
     public BrowserHistory(String homepage) {
-        res = new Node(homepage);
+        stack1.push(homepage);
     }
     
     public void visit(String url) {
-        Node curr = new Node(url);
-        res.next = curr;
-        curr.prev = res;
-        res = curr;
+        stack1.push(url);
+        stack2.clear();
     }
     
     public String back(int steps) {
-        while(res.prev != null && steps-- > 0){
-            res = res.prev;
-        }
-        return res.data;
+        while(steps-- > 0 && stack1.size() > 1)
+            stack2.push(stack1.pop());
+
+        return stack1.peek();
     }
     
     public String forward(int steps) {
-        while(res.next != null & steps-- > 0){
-            res = res.next;
-        }
-        return res.data;
+        while(steps-- > 0 && !stack2.isEmpty())
+            stack1.push(stack2.pop());
+
+        return stack1.peek();
     }
 }
 

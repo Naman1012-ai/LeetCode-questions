@@ -1,14 +1,14 @@
 class RecentCounter {
     
-    Deque<Integer> requests;
+    Queue<Integer> requests;
     public RecentCounter() {
-        requests = new ArrayDeque<>();
+        requests = new LinkedList<>();
     }
     
     public int ping(int t) {
-        requests.addLast(t);
-        while(requests.peekFirst() < t - 3000){
-            requests.removeFirst();
+        requests.add(t);
+        while(requests.peek() < t - 3000){
+            requests.poll();
         }
         return requests.size();
     }

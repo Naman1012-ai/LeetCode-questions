@@ -15,7 +15,6 @@ class Solution {
             heap.offer(n - m);
         }
 
-        if(!heap.isEmpty()) return heap.peek();
-        else return 0;
+        return heap.isEmpty() ? 0 : heap.peek();
     }
 }

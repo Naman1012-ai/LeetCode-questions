@@ -1,26 +1,22 @@
 class Solution {
     public boolean isValid(String s) {
-        Stack<Character> st = new Stack<>();
+        Stack<Character> stack = new Stack<>();
+        Map<Character, Character> m = new HashMap<>();
 
-        for(int i = 0; i < s.length(); i++){
-            char c = s.charAt(i);;
-            if(!st.isEmpty()){
-                char l = st.peek();
-                if( (l == '(' && c == ')') ||
-                    (l == '[' && c == ']') ||
-                    (l == '{' && c == '}')){
-                    st.pop();
-                    continue;
+        m.put(')', '(');
+        m.put(']', '[');
+        m.put('}', '{');
+
+        for(char c : s.toCharArray()){
+            if(m.containsValue(c)){
+                stack.push(c);
+            }
+            else if(m.containsKey(c)){
+                if(stack.isEmpty() || m.get(c) != stack.pop()){
+                    return false;
                 }
             }
-            st.push(c);
         }
-        return st.isEmpty();
-    }
-
-    private boolean ispair(char l, char c){
-        return  (l == '(' && c == ')') ||
-                (l == '[' && c == ']') ||
-                (l == '{' && c == '}');
+        return stack.isEmpty();
     }
 }
